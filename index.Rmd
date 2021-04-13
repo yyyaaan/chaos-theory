@@ -1,0 +1,250 @@
+---
+title: "A Sneak Peek to Chao Theory"
+runtime: shiny
+output: 
+  flexdashboard::flex_dashboard:
+    storyboard: true
+    theme: flatly
+---
+
+<style>
+.storyboard-nav .sbframelist, .storyboard-nav .sbnext, .storyboard-nav .sbprev {height: 77px !important;}
+.shiny-input-container:not(.shiny-input-container-inline) {width: 90% !important;}
+.shiny-split-layout>div{overflow: hidden;}
+body {font-family: Georgia,"Times New Roman",Times,serif; color: #777}
+h1 {font-size: xxlarge; text-align: center;}
+p, li {font-size: larger; text-align: left;}
+.sbframe-commentary {width: 66% !important;}
+
+.dropdown-menu {position:fixed; top:inherit; left:inherit; max-width:360px}
+.form-group {margin-bottom: 3px;}
+.input-box {position: relative; }
+.form-control {display: block; border: 1px solid #d7d6d6; background: #fff; padding: 10px 10px 10px 30px;}
+.control-label{position: relative; display: block; left: 5px; top: 20px; z-index: 9; font-style: italic; height: 1px}
+label[for=ptype], div.form-group > br{display:none}
+</style>
+
+```{r, echo=FALSE}
+library(shiny)
+library(shinyWidgets)
+source("global.R")
+knitr::opts_chunk$set(echo = F, message = F, warning = F)
+#  add to ### to control size {data-commentary-width=550}
+```
+
+
+
+### Lorenz Equation Demo {data-commentary-width=800}
+
+```{r lorenz_opts}
+# autonumericInput(inputId="id3", label="", value = 1.0000, currencySymbol = "ρ=", decimalPlaces = 3)
+splitLayout(cellWidths = c("70%","30%"), 
+            NULL ,
+            numericInput("tmax", "t=", min=1,  max=100, value=50,  step=1))
+```
+
+
+<div style="border-radius: 6px; border: 2px solid #fbb4ae; padding: 0px 9px; text-decoration: underline 3px #fbb4ae; margin: 9px 0px 9px">
+
+Lorenz System 1
+
+```{r}
+splitLayout(cellWidths = c("33%", "33%", "33%"), 
+            numericInput('rho1',   "ρ=", min=3, max=50, value=15, step=1),
+            numericInput('sigma1', "σ=", min=3, max=50, value=10, step=1),
+            numericInput('beta1',  "β=", min=3, max=50, value=2.67, step=1))
+splitLayout(cellWidths = c("33%", "33%", "33%"), 
+            numericInput("x01", "x₀=", min=0, max=10, value=1, step=0.001),
+            numericInput("y01", "y₀=", min=0, max=10, value=1, step=0.001),
+            numericInput("z01", "z₀=", min=0, max=10, value=1, step=0.001))
+```
+
+</div><div style="border-radius: 6px; border: 2px solid #b3cde3; padding: 0px 9px; text-decoration: underline 3px #b3cde3; margin-bottom: 9px;">
+
+Lorenz System 2
+
+```{r}
+splitLayout(cellWidths = c("33%", "33%", "33%"), 
+            numericInput('rho2',   "ρ=", min=3, max=50, value=28, step=1),
+            numericInput('sigma2', "σ=", min=3, max=50, value=10, step=1),
+            numericInput('beta2',  "β=", min=3, max=50, value=2.67, step=1))
+splitLayout(cellWidths = c("33%", "33%", "33%"), 
+            numericInput("x02", "x₀=", min=0, max=10, value=1.000, step=0.001),
+            numericInput("y02", "y₀=", min=0, max=10, value=1.000, step=0.001),
+            numericInput("z02", "z₀=", min=0, max=10, value=1.000, step=0.001))
+```
+
+</div>
+
+```{r}
+uiOutput("info")
+```
+
+***
+
+```{r lorenz_layout}
+smooth_disp = c("Fast", "Balanced", "Accurate", "Smooth")
+smooth_value = c(50, 100, 200, 250)
+
+splitLayout(
+  cellWidths = c("25%","75%"),
+  dropdownButton(
+    materialSwitch("noAXES", "Hide Axes", status = "default", value = FALSE, right = TRUE),
+    materialSwitch("show1",  "Show System #1", status = "default", value = T, right=TRUE),
+    materialSwitch("show2",  "Show System #2", status = "default", value = T, right=TRUE),
+    tags$hr(),
+    tags$small("Render Quality:"),
+    sliderTextInput(inputId = "smooth", label = " ", choices = smooth_disp,
+                    selected = smooth_disp[2]),
+    circle = F, label=" Options", status = "default",
+    icon = icon("gear"), width = "99%"),
+    
+  radioGroupButtons(
+    inputId = "ptype", label = "Plot Type",
+    choices = c("<i class='fa fa-cubes'></i>  3D"="3d",
+                "<i class='fa fa-braille'></i>  Projections"="prj", 
+                "<i class='fa fa-line-chart'></i>  Time Sereis"="ts",
+                "<i class='fa fa-route'></i>  Ttrajectories"="tr"),
+    justified = TRUE)
+)
+
+plotlyOutput("the_plot", width="99%", height="85%")
+
+```
+
+```{r lorenz_server}
+rptype <- reactive(input$ptype)
+
+output$the_plot <- renderPlotly({
+  
+  the_freq <- 1/smooth_value[which(smooth_disp == input$smooth)]
+  
+  if(input$show1){
+    df1 <-  lorenz(input$rho1, input$sigma1, input$beta1, input$x01, input$y01, input$z01,
+                   input$tmax, the_freq, type="data",name="#fbb4ae")
+  } else {
+    df1 <- data.frame(x=1, y=1, z=1, t=0, name="#b3cde3")
+
+  }
+
+  if(input$show2){
+    df2 <-  lorenz(input$rho2, input$sigma2, input$beta2, input$x02, input$y02, input$z02,
+                   input$tmax, the_freq, type="data",name="#b3cde3")
+  } else {
+    df2 <- data.frame(x=1, y=1, z=1, t=0, name="#b3cde3")
+  }
+  
+  output$info<- renderUI(tags$small(
+    "Smoothness:", smooth_value[which(smooth_disp == input$smooth)], tags$br(),
+    "Data entries: ", nrow(df1) + nrow(df2), tags$br()))
+
+  
+  if(rptype()=="3d"){
+    fig <- rbind(df1, df2) %>%
+      plot_ly() %>%
+      add_trace(x=~x, y=~y, z=~z, color=~I(name), mode="lines", type="scatter3d") %>%
+      layout(title = mytit)
+
+    if(input$noAXES) return(fig %>% layout(scene=list(xaxis=noaxis, yaxis=noaxis, zaxis=noaxis)))
+    else return(fig)
+  }
+  
+  if(rptype()=="prj"){return(
+    subplot(
+      plot_ly() %>%
+        add_trace(data=df1, x=~x, y=~y, color=~I(name), mode="lines", type="scatter") %>%
+        add_trace(data=df2, x=~x, y=~y, color=~I(name), mode="lines", type="scatter"),
+      plot_ly() %>%
+        add_trace(data=df1, x=~y, y=~z, color=~I(name), mode="lines", type="scatter") %>%
+        add_trace(data=df2, x=~y, y=~z, color=~I(name), mode="lines", type="scatter"),
+      plot_ly() %>%
+        add_trace(data=df1, x=~x, y=~z, color=~I(name), mode="lines", type="scatter") %>%
+        add_trace(data=df2, x=~x, y=~z, color=~I(name), mode="lines", type="scatter"),
+      shareX = F, shareY = F, titleX = T, titleY = T, margin = 0.05)  %>%
+        layout(showlegend=FALSE, title = mytit)
+  )}
+
+  if(rptype()=="ts"){return(
+    subplot(
+      plot_ly() %>%
+        add_trace(data=df1, x=~t, y=~x, color=~I(name), mode="lines", type="scatter") %>%
+        add_trace(data=df2, x=~t, y=~x, color=~I(name), mode="lines", type="scatter"),
+      plot_ly() %>%
+        add_trace(data=df1, x=~t, y=~y, color=~I(name), mode="lines", type="scatter") %>%
+        add_trace(data=df2, x=~t, y=~y, color=~I(name), mode="lines", type="scatter"),
+      plot_ly() %>%
+        add_trace(data=df1, x=~t, y=~z, color=~I(name), mode="lines", type="scatter") %>%
+        add_trace(data=df2, x=~t, y=~z, color=~I(name), mode="lines", type="scatter"),
+      shareX = F, shareY = F, titleX = T, titleY = T, margin = 0.05)  %>%
+        layout(showlegend=FALSE, hovermode="x", title = mytit)
+  )}
+  
+  if(rptype()=="tr"){return(
+    plot_ly() %>% 
+      # # 2D-projection
+      # add_trace(data=df1, x=~x, y=~y, color=~I(name), mode="lines", type="scatter") %>%
+      # add_trace(data=df2, x=~x, y=~y, color=~I(name), mode="lines", type="scatter") %>%
+      # add_markers(data=df1 %>% filter(floor(10*t)==10*t), x=~x, y=~y, frame=~t, marker=mstyle("cyan")) %>%
+      # add_markers(data=df2 %>% filter(floor(10*t)==10*t), x=~x, y=~y, frame=~t, marker=mstyle("yellow")) %>%
+      # layout(showlegend=FALSE)
+      # 3D full
+      add_trace(data=df1, x=~x, y=~y, z=~z, color=~I(name), mode="lines", type="scatter3d") %>%
+      add_trace(data=df2, x=~x, y=~y, z=~z, color=~I(name), mode="lines", type="scatter3d") %>%
+      add_markers(data=df1 %>% filter(floor(10*t)==10*t), x=~x, y=~y, z=~z, frame=~t, marker=mstyle("cyan",6)) %>%
+      add_markers(data=df2 %>% filter(floor(10*t)==10*t), x=~x, y=~y, z=~z, frame=~t, marker=mstyle("yellow",6)) %>%
+      layout(showlegend=FALSE, title = mytit, 
+             scene=list(xaxis=noaxis, yaxis=noaxis, zaxis=noaxis)) %>%
+      animation_slider(currentvalue = list(prefix = "Time ", font = list(color="red"))) %>%
+      animation_opts(100)
+  )}
+  
+  if(rptype()=="all"){return( # slow, not in use
+    plot_ly(rbind(df1, df2)) %>%
+      add_markers(x=~x, y=~y, z=~z, color=~I(name), type="scatter3d", size=I(3)) %>%
+      layout(updatemenus=dropmenu)
+  )}
+})
+```
+
+
+### Introduction
+
+<h1> A Sneak Peak to Chaos Theory</h1>
+
+### Lorenz System (Lorenz, 1963)
+
+> Deterministic nonperiodic flow
+
+The mathematical model for atmospheric convection, in the domain of fluid dynamic system.
+
+An ordinal differential equation with parameters $\sigma, \rho$ and $\beta$:
+
+$$
+\begin{cases} 
+\frac{dx}{dt} = \sigma (y-x) \\
+\frac{dy}{dt} = x(\rho-z) -y \\
+\frac{dz}{dt} = -\beta z + xy \\
+\end{cases}
+$$
+
+or simply by logistic map (recurrent mapping of $x,y,z$)
+
+$$
+\begin{cases} 
+x' \to \sigma (y-x) \\
+y' \to x(\rho-z) -y \\
+z' \to  -\beta z + x y \\
+\end{cases}
+$$
+
+
+The original Lorenz System is defined by $\rho=28, \sigma=10$ and $\beta= 8/3$, and was derived from Lord Rayleigh’s thermal convection (a Fourier expansion of the stream function and temperature).
+
+With the simple equations, the solutions are "beautifully chaotic":
+
+- deterministic
+
+- sensitive to initial values
+
+- exists strange attractors
+
