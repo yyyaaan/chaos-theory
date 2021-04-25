@@ -1,5 +1,5 @@
 ---
-title: "A Sneak Peek to Chao Theory"
+title: "An Introduction to Chaos Theory"
 runtime: shiny
 output: 
   flexdashboard::flex_dashboard:
@@ -8,13 +8,15 @@ output:
 ---
 
 <style>
-.storyboard-nav .sbframelist, .storyboard-nav .sbnext, .storyboard-nav .sbprev {height: 77px !important;}
+.storyboard-nav .sbframelist, .storyboard-nav .sbnext, .storyboard-nav .sbprev {height: 55px !important;}
 .shiny-input-container:not(.shiny-input-container-inline) {width: 90% !important;}
 .shiny-split-layout>div{overflow: hidden;}
 body {font-family: Georgia,"Times New Roman",Times,serif; color: #777}
-h1 {font-size: xxlarge; text-align: center;}
-p, li {font-size: larger; text-align: left;}
-.sbframe-commentary {width: 66% !important;}
+h1 {font-size: xxlarge; text-align: center; margin-bottom: 90px}
+h2 {font-size: larger; text-align: center;}
+p, li {font-size: 19px; text-align: left;}
+p.caption {font-size:12px;}
+blockquote{ border-left: 5px solid lightcoral;}
 
 .dropdown-menu {position:fixed; top:inherit; left:inherit; max-width:360px}
 .form-group {margin-bottom: 3px;}
@@ -30,11 +32,117 @@ library(shinyWidgets)
 source("global.R")
 knitr::opts_chunk$set(echo = F, message = F, warning = F)
 #  add to ### to control size {data-commentary-width=550}
+
+# https://arxiv.org/pdf/1503.06425.pdf
+# https://www.sciencedirect.com/topics/earth-and-planetary-sciences/chaos-theory
 ```
 
 
 
-### Lorenz Equation Demo {data-commentary-width=800}
+### Introduction
+
+<h1> An Introduction to Chaos Theory</h1>
+
+<h2>Yan Pan</h2>
+
+<h2>April 2021</h2>
+
+<h2><img src="https://www.jyu.fi/fi/yliopistopalvelut/viestintapalvelut/logot/jyu-keskitetty-kaksikielinen.jpg" width="180"></img></h2>
+
+
+
+### Agenda  {data-commentary-width=300}
+
+> A study originated from "Does the Flap of a Butterfly's Wings in Brazil set off a Tornado in Texas?"<sup>(1)</sup>
+
+- The short history
+
+- Concepts of chaotic dynamics
+
+- Lorenz System
+
+- Defining complexity of a chaotic system
+
+***
+
+<p style="margin-left:30px">
+<img src="https://upload.wikimedia.org/wikipedia/commons/4/45/Double-compound-pendulum.gif" width="180"></img>
+<br/><small>Double Pendulum [source: Wikipedia Common Domains] </small>
+</p>
+
+<small> (1) Initial paper title of Lorenz on 1972 to the American Association for the Advancement of Science in Washington, D.C.</small>
+
+### The short history
+
+> Chaos theory is young, and dependent on modern computer.
+
+- 1963: An system containing `strange attractors` was presented by Edward Lorenz.
+
+- ... A gap ...
+
+- 1995: The Lorenz system is proved to be really chaotic with help of computers by Konstantin Mischaiko and Marian Mrozek. The proof showed that the chaotic behaviour indeed led to the strange attractors.
+
+- 2000: The shape of attractors was confirmed as is simulated by computer by Warwick Turker.
+
+> Chaos Theory is interdisciplinary
+
+In mathematics, it focuses on dynamical systems with chaotic behavior.
+
+
+
+### Concepts of chaos theory
+
+> Definition
+
+`Chaos`: when the present determines the future, but the approximate present does not approximately determine the future. (Lorenz 1963)
+
+To mathematically define a dynamical system as `Chaotic`, the system satisfies (Hasselblatt & Katok 2003):
+
+(1) sensitive to initial conditions
+
+(2) topologically transitive
+
+(3) dense periodic orbits
+
+Elaydi (1999) and Basener (2006) suggested that the (2) and (3) imply (1).
+
+> Scope
+
+Within `deterministic` chaos, study underlying patterns, interconnectedness, constant feedback loops, repetition, self-similarity, fractals, and self-organization. (Safonov et al. 2002)
+
+
+
+### Lorenz System (Lorenz, 1963)
+
+> Deterministic nonperiodic flow
+
+The mathematical model for atmospheric convection, in the domain of fluid dynamic system.
+
+Chaotic solutions is recognized for an ordinal differential equation with parameters $\sigma, \rho$ and $\beta$:
+
+$$
+\begin{cases} 
+\frac{dx}{dt} = \sigma (y-x) \\
+\frac{dy}{dt} = x(\rho-z) -y \\
+\frac{dz}{dt} = -\beta z + xy \\
+\end{cases}
+$$
+
+or simply by recurrent mapping of $x,y,z$
+
+$$
+\begin{cases} 
+x' \to \sigma (y-x) \\
+y' \to x(\rho-z) -y \\
+z' \to  -\beta z + x y \\
+\end{cases}
+$$
+
+The original Lorenz System is defined by $\rho=28, \sigma=10$ and $\beta= 8/3$, and was derived from Lord Rayleigh’s thermal convection (a Fourier expansion of the stream function and temperature).
+
+
+
+### Lorenz System Demo {data-commentary-width=800}
 
 ```{r lorenz_opts}
 # autonumericInput(inputId="id3", label="", value = 1.0000, currencySymbol = "ρ=", decimalPlaces = 3)
@@ -205,46 +313,4 @@ output$the_plot <- renderPlotly({
   )}
 })
 ```
-
-
-### Introduction
-
-<h1> A Sneak Peak to Chaos Theory</h1>
-
-### Lorenz System (Lorenz, 1963)
-
-> Deterministic nonperiodic flow
-
-The mathematical model for atmospheric convection, in the domain of fluid dynamic system.
-
-An ordinal differential equation with parameters $\sigma, \rho$ and $\beta$:
-
-$$
-\begin{cases} 
-\frac{dx}{dt} = \sigma (y-x) \\
-\frac{dy}{dt} = x(\rho-z) -y \\
-\frac{dz}{dt} = -\beta z + xy \\
-\end{cases}
-$$
-
-or simply by logistic map (recurrent mapping of $x,y,z$)
-
-$$
-\begin{cases} 
-x' \to \sigma (y-x) \\
-y' \to x(\rho-z) -y \\
-z' \to  -\beta z + x y \\
-\end{cases}
-$$
-
-
-The original Lorenz System is defined by $\rho=28, \sigma=10$ and $\beta= 8/3$, and was derived from Lord Rayleigh’s thermal convection (a Fourier expansion of the stream function and temperature).
-
-With the simple equations, the solutions are "beautifully chaotic":
-
-- deterministic
-
-- sensitive to initial values
-
-- exists strange attractors
 
