@@ -152,3 +152,20 @@ testPlot <- function(){
 }
 
 
+
+
+test <- function(){
+  x = c(0.3)
+  y = numeric()
+  rs = (28000:40000)/10000
+  for(r in rs){
+    for(i in 1:100){
+      x[i+1] = r * x[i] * (1 - x[i]) 
+    }
+    y[length(y)+1]=x[length(x)]
+  }
+  
+  
+  ggplot() + geom_point(aes(x=rs, y=y), color = "grey") + theme_minimal() +
+    labs(x="r", y="x[100]")
+}

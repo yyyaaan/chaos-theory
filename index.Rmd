@@ -38,15 +38,17 @@ knitr::opts_chunk$set(echo = F, message = F, warning = F)
 
 
 
-### 2/10<br/>Agenda
+### 2/11<br/>Agenda
 
-<p style="margin-left:30px; margin-top:500px">
-<img src="https://upload.wikimedia.org/wikipedia/commons/6/65/Trajektorie_eines_Doppelpendels.gif" width="220"></img>
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Double-compound-pendulum-dimensioned.svg/1024px-Double-compound-pendulum-dimensioned.svg.png" width="160"></img>
-<br/><small>Double Pendulum [source: Wikipedia Common Domains] </small>
+<p style="margin-left:10px; margin-top:120px">
+<img src="https://upload.wikimedia.org/wikipedia/commons/6/65/Trajektorie_eines_Doppelpendels.gif" width="200"></img>
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Double-compound-pendulum-dimensioned.svg/1024px-Double-compound-pendulum-dimensioned.svg.png" width="130"></img>
+<br/><small>Double Pendulum <br/>[source: Wikipedia Common Domains] </small>
 </p>
 
+<p style="margin-left:10px; margin-top:120px">
 <small> (1) Initial paper title of Lorenz on 1972 to the American Association for the Advancement of Science in Washington, D.C.</small>
+</p>
 
 ***
 
@@ -65,7 +67,7 @@ knitr::opts_chunk$set(echo = F, message = F, warning = F)
 - Implications
 
 
-### 3/10<br/>The short history
+### 3/11<br/>The short history
 
 > Chaos theory is young, and dependent on modern computer.
 
@@ -73,7 +75,7 @@ knitr::opts_chunk$set(echo = F, message = F, warning = F)
 
 - 1973: Li and Yorke attempted to define `chaos` mathematically.
 
-- 1995: The Lorenz system is proved to be really chaotic with help of computers by Konstantin Mischaiko and Marian Mrozek. The proof showed that the chaotic behaviour indeed led to the strange attractors.
+- 1995: The Lorenz system is proved to be really chaotic with help of computers by Konstantin Mischaiko and Marian Mrozek. The proof showed that the chaotic behavior indeed led to the strange attractors.
 
 - 2000: The shape of attractors was confirmed as is simulated by computer by Warwick Turker.
 
@@ -83,7 +85,7 @@ In mathematics, it focuses on dynamical systems with chaotic behavior.
 
 
 
-### 4/10<br/>Concepts of chaos theory
+### 4/11<br/>Concepts of chaos theory
 
 > Conceptual Definition
 
@@ -105,13 +107,13 @@ Within `deterministic` chaos, study underlying patterns, interconnectedness, con
 
 
 
-### 5/10<br/>Lorenz System (Lorenz, 1963)
+### 5/11<br/>Lorenz System (Lorenz, 1963)
 
 > Deterministic nonperiodic flow
 
 The mathematical model for atmospheric convection, in the domain of fluid dynamic system.
 
-Chaotic solutions is recognized for an ordinal differential equation with parameters $\sigma, \rho$ and $\beta$:
+Chaotic solutions are recognized for an ordinal differential equation with parameters $\sigma, \rho$ and $\beta$:
 
 $$
 \begin{cases} 
@@ -135,7 +137,7 @@ The original Lorenz System is defined by $\rho=28, \sigma=10$ and $\beta= 8/3$, 
 
 
 
-### 6/10<br/>Lorenz System Demo
+### 6/11<br/>Lorenz System Demo
 
 ```{r lorenz_opts}
 # autonumericInput(inputId="id3", label="", value = 1.0000, currencySymbol = "ρ=", decimalPlaces = 3)
@@ -313,13 +315,13 @@ output$the_plot <- renderPlotly({
 ```
 
 
-### 7/10<br/>Formal mathematical definitions
+### 7/11<br/>Formal mathematical definitions
 
-> Towards a formal mathematical definitions of "chaos"
+> Towards formal mathematical definitions of `chaos`
 
 At this time, there is no universally accepted mathematical definition of chaos. Many researches believe it is impossible to define (e.g. Aulbach & Kieninger 2001; Li & Ye 2016)
 
-For a continuous map $f: X\to X$ compact metric space $(X, d)$, there are at least 3 popular definition.
+For a continuous map $f: X\to X$ on a compact metric space $(X, d)$, there are at least 3 popular definitions.
 
 > Li-Yorke Chaos (1975)
 
@@ -331,7 +333,7 @@ $f$ is `Li-Yorke-chaotic` if there exists an uncountable subset $S$ of $X$ with 
 
 
 
-### 8/10<br/>Formal mathematical definitions (cont.)
+### 8/11<br/>Topological Chaos
 
 > Devaney Chaos (1987)
 
@@ -346,7 +348,28 @@ $f$ is `Devaney-chaotic` if there exists a compact invariant subset $Y$ of $X$ w
 $f$ is `Block-Coppel-chaotic` if there exists an $m\in\mathbb N$ and a compact $f^m$-invariant subset $Y$ of $X$ such that $f^m \vert_y$ is sem-conjugate to the shift on $\Sigma$, i.e.  exists a continuous surjection $h: Y \to \Sigma$ satisfying $h\circ f^m = \sigma \circ h$ on $Y$.
 
 
-### 9/10<br/>Applications and implications
+### 9/11<br/>Sensitivity of Dynamical System
+
+> Li-York sensitivity
+
+A dynamical system $(X,T)$ is called `Li-Yorke sensitive` if there exists some $\delta \gt 0 $ such that for any $x\in X$ and $\varepsilon \gt 0$, there is $y\in X$ satisfying $d(x,y)\lt\varepsilon$ such that
+
+$$
+{\underset {n\to\infty} {\lim\sup}}\ d(T^nx,\ T^n y) \gt 0 \text{ and }
+{\underset {n\to\infty} {\lim\inf}}\ d(T^nx,\ T^n y) = 0
+$$
+
+
+> Equicontinuity and Sensitivity
+
+A dynamical system $(X,T)$ is called `equicontinuous` if for every $\varepsilon \gt 0$, there exists some $\delta \gt 0$ such that whenever $x,y\in X$ with $d(x,y)\lt \delta,\ d(T^nx, T^n y) \lt \varepsilon$  for $n=1,2,3,\dots$.
+
+`Sensitivity` is then defined as non-equicontinuity.
+
+
+
+
+### 10/11<br/>Applications and implications
 
 > Common application
 
@@ -366,6 +389,20 @@ $f$ is `Block-Coppel-chaotic` if there exists an $m\in\mathbb N$ and a compact $
 
 ***
 
+> Simple logistic maps can be chaotic
+
+A model for population estimation, where $r$ the growth rate, $x$ is the proportion of a population ($x=1$ is the environment limit).
+
+$$x_{n+1} = rx_n(1-x_n)$$
+
+If $r>3$, the equilibrium is no longer existing. The relationship between $x_N$ and $r$ is called `Bifurcation diagram`
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Logistic_Map_Bifurcation_Diagram%2C_Matplotlib.svg/1280px-Logistic_Map_Bifurcation_Diagram%2C_Matplotlib.svg.png" width=330>
+<p><small>[source: Wikipedia Common Domains]</small><p>
+
+
+### 11/11<br/>Implications
+
 > Chaos theory is mathematical 
 
 From observations to formal definitions.
@@ -375,11 +412,9 @@ From definitions to propositions, theorems and lemmas.
 
 > Chaos theory is different
 
-Chaos theory is applicable in many domains, and there are also varied definitions, concepts and methodologies involved.
-
 The key value of `Chaos Theory` may not be mathematical, nor any subject-dependent.
 
-It can often be impossible to predict in deterministic systems at a given future tiem; however, the prediction of a period and study the patterns can be valuable. 
+It can often be impossible to predict how an individual state will evolve; however, one can predict how a set of states will evolve. 
 
 > Recall the scope of Chaos theory
 
@@ -388,7 +423,7 @@ Underlying patterns, interconnectedness, constant feedback loops, repetition, se
 
 
 
-### 10/10<br/>References
+### References
 
 > References
 
@@ -407,6 +442,7 @@ Li, J., & Ye, X. (2016). Recent development of chaos theory in topological dynam
 Aulbach, B., & Kieninger, B. (2001). On three definitions of chaos. Nonlinear Dyn. Syst. Theory, 1(1), 23–37.
 
 > Open Internet is the source of knowledge
+
 
 <style>
 .storyboard-nav .sbframelist, .storyboard-nav .sbnext, .storyboard-nav .sbprev {height: 55px !important;}
