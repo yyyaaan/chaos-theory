@@ -71,7 +71,7 @@ knitr::opts_chunk$set(echo = F, message = F, warning = F)
 
 > Chaos theory is young, and dependent on modern computer.
 
-- 1963: An system containing `strange attractors` was presented by Edward Lorenz.
+- 1963: A system containing `strange attractors` was presented by Edward Lorenz.
 
 - 1973: Li and Yorke attempted to define `chaos` mathematically.
 
@@ -91,7 +91,7 @@ In mathematics, it focuses on dynamical systems with chaotic behavior.
 
 `Chaos`: when the present determines the future, but the approximate present does not approximately determine the future. (Lorenz 1963)
 
-To mathematically define a dynamical system as `Chaotic`, the system satisfies (Hasselblatt & Katok 2003):
+To mathematically define a dynamical system as `chaotic`, the system satisfies (Hasselblatt & Katok 2003):
 
 (1) sensitive to initial conditions
 
@@ -143,7 +143,7 @@ The original Lorenz System is defined by $\rho=28, \sigma=10$ and $\beta= 8/3$, 
 # autonumericInput(inputId="id3", label="", value = 1.0000, currencySymbol = "ρ=", decimalPlaces = 3)
 splitLayout(cellWidths = c("70%","30%"), 
             NULL ,
-            numericInput("tmax", "t=", min=1,  max=100, value=50,  step=1))
+            numericInput("tmax", "t=", min=1,  max=100, value=30,  step=1))
 ```
 
 
@@ -157,9 +157,9 @@ splitLayout(cellWidths = c("33%", "33%", "33%"),
             numericInput('sigma1', "σ=", min=3, max=50, value=10, step=1),
             numericInput('beta1',  "β=", min=3, max=50, value=2.67, step=1))
 splitLayout(cellWidths = c("33%", "33%", "33%"), 
-            numericInput("x01", "x₀=", min=0, max=10, value=1, step=0.001),
-            numericInput("y01", "y₀=", min=0, max=10, value=1, step=0.001),
-            numericInput("z01", "z₀=", min=0, max=10, value=1, step=0.001))
+            numericInput("x01", "x₀=", min=0, max=10, value=1, step=0.0001),
+            numericInput("y01", "y₀=", min=0, max=10, value=1, step=0.0001),
+            numericInput("z01", "z₀=", min=0, max=10, value=1, step=0.0001))
 ```
 
 </div><div style="border-radius: 6px; border: 2px solid #b3cde3; padding: 0px 9px; text-decoration: underline 3px #b3cde3; margin-bottom: 9px;">
@@ -172,9 +172,9 @@ splitLayout(cellWidths = c("33%", "33%", "33%"),
             numericInput('sigma2', "σ=", min=3, max=50, value=10, step=1),
             numericInput('beta2',  "β=", min=3, max=50, value=2.67, step=1))
 splitLayout(cellWidths = c("33%", "33%", "33%"), 
-            numericInput("x02", "x₀=", min=0, max=10, value=1.000, step=0.001),
-            numericInput("y02", "y₀=", min=0, max=10, value=1.000, step=0.001),
-            numericInput("z02", "z₀=", min=0, max=10, value=1.000, step=0.001))
+            numericInput("x02", "x₀=", min=0, max=10, value=1.000, step=0.0001),
+            numericInput("y02", "y₀=", min=0, max=10, value=1.000, step=0.0001),
+            numericInput("z02", "z₀=", min=0, max=10, value=1.000, step=0.0001))
 ```
 
 </div>
@@ -315,11 +315,11 @@ output$the_plot <- renderPlotly({
 ```
 
 
-### 7/11<br/>Formal mathematical definitions
+### 7/11<br/>Formal Mathematical Definitions
 
 > Towards formal mathematical definitions of `chaos`
 
-At this time, there is no universally accepted mathematical definition of chaos. Many researches believe it is impossible to define (e.g. Aulbach & Kieninger 2001; Li & Ye 2016)
+At this time, there is no universally accepted mathematical definition of chaos. Many researchers has described the impossibility of such definition (e.g. Aulbach & Kieninger 2001; Li & Ye 2016).
 
 For a continuous map $f: X\to X$ on a compact metric space $(X, d)$, there are at least 3 popular definitions.
 
@@ -352,7 +352,7 @@ $f$ is `Block-Coppel-chaotic` if there exists an $m\in\mathbb N$ and a compact $
 
 > Li-York sensitivity
 
-A dynamical system $(X,T)$ is called `Li-Yorke sensitive` if there exists some $\delta \gt 0 $ such that for any $x\in X$ and $\varepsilon \gt 0$, there is $y\in X$ satisfying $d(x,y)\lt\varepsilon$ such that
+A dynamical system $(X,T)$ is called `Li-Yorke sensitive` if there exists some $\delta \gt 0$ such that for any $x\in X$ and $\varepsilon \gt 0$, there is $y\in X$ satisfying $d(x,y)\lt\varepsilon$ such that
 
 $$
 {\underset {n\to\infty} {\lim\sup}}\ d(T^nx,\ T^n y) \gt 0 \text{ and }
@@ -369,7 +369,7 @@ A dynamical system $(X,T)$ is called `equicontinuous` if for every $\varepsilon 
 
 
 
-### 10/11<br/>Applications and implications
+### 10/11<br/>Applications
 
 > Common application
 
@@ -397,7 +397,7 @@ $$x_{n+1} = rx_n(1-x_n)$$
 
 If $r>3$, the equilibrium is no longer existing. The relationship between $x_N$ and $r$ is called `Bifurcation diagram`
 
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Logistic_Map_Bifurcation_Diagram%2C_Matplotlib.svg/1280px-Logistic_Map_Bifurcation_Diagram%2C_Matplotlib.svg.png" width=330>
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c8/Logistic_Map_Bifurcation_Diagram%2C_Matplotlib.svg/1280px-Logistic_Map_Bifurcation_Diagram%2C_Matplotlib.svg.png" width=390>
 <p><small>[source: Wikipedia Common Domains]</small><p>
 
 
